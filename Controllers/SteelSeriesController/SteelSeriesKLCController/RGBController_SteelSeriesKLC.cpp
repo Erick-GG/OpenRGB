@@ -20,8 +20,7 @@
     @detectors DetectSteelSeriesKLC
     @comment Per-key RGB. Protocol: 4x Feature Reports (0x0E, 524 bytes)
              + 1x Output Report (0x0D, 64 bytes) on usage page 0xFF00.
-             SteelSeries GG bug: F3/F5/B receive black in green profile —
-             this driver sends correct RGB for all keys.
+             All 85 keys use standard 12-byte RGB entries.
 \*-------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------*\

@@ -7,10 +7,8 @@
 |   Protocol reverse-engineered via Wireshark USB capture   |
 |   from SteelSeries GG on Windows.                         |
 |                                                           |
-|   NOTE: SteelSeries GG has a bug where keys F3 (0x3C),   |
-|   F5 (0x3E) and B (0x05) receive black instead of the    |
-|   correct green color. This driver sends the correct RGB  |
-|   values for all keys, fixing that bug transparently.     |
+|   All 85 keys use the standard 12-byte RGB entry format.  |
+|   No per-key exceptions or quirks are required.           |
 |                                                           |
 |   This file is part of the OpenRGB project                |
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
