@@ -545,9 +545,21 @@ void DetectSteelSeriesKLC(hid_device_info* info, const std::string& name)
 }
 
 /*
- * Usage page 0xFF00 = Vendor-Defined interface (MI_00 on Windows).
+ * Interface 0 = Vendor-Defined (MI_00 on Windows, usage page 0xFF00).
  * This is the interface that accepts the 5-packet RGB update sequence.
+ *
+ * We use REGISTER_HID_DETECTOR_I (interface filter) instead of
+ * REGISTER_HID_DETECTOR_P (usage page filter) because on Linux,
+ * hidapi can only read the usage page after opening the device.
+ * Without a udev rule the device is not yet open, usage_page returns 0,
+ * and the usage-page filter never matches. Interface number comes from
+ * the USB descriptor and is always readable without elevated permissions.
+ *
  * Do NOT use interface=2 (the old experimental entry) — that opens the
  * wrong HID endpoint and all writes silently succeed but do nothing.
+ *
+ * Linux udev rule required (add to /etc/udev/rules.d/60-openrgb.rules):
+ *   SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="113a", TAG+="uaccess"
+ * Then: sudo udevadm control --reload-rules && sudo udevadm trigger
  */
-REGISTER_HID_DETECTOR_P ("MSI SteelSeries KLC",                             DetectSteelSeriesKLC,       STEELSERIES_VID, STEELSERIES_MSI_KLC_PID,                    0xFF00 );
+REGISTER_HID_DETECTOR_I  ("MSI SteelSeries KLC",                             DetectSteelSeriesKLC,       STEELSERIES_VID, STEELSERIES_MSI_KLC_PID,                       0  );
