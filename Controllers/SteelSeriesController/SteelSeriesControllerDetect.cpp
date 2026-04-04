@@ -24,6 +24,8 @@
 #include "SteelSeriesRival3Controller.h"
 #include "SteelSeriesSenseiController.h"
 #include "SteelSeriesSiberiaController.h"
+#include "SteelSeriesKLCController.h"
+#include "RGBController_SteelSeriesKLC.h"
 #include "RGBController_SteelSeriesArctis5.h"
 #include "RGBController_SteelSeriesApex.h"
 #include "RGBController_SteelSeriesApex3.h"
@@ -127,6 +129,8 @@
 #define STEELSERIES_APEX_PRO_TKL_GEN3_PID           0x1642
 #define STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1      0x1644
 #define STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2      0x1646
+#define STEELSERIES_MSI_KLC_PID                     0x113A
+
 
 void DetectSteelSeriesAerox3(hid_device_info* info, const std::string& name)
 {
@@ -523,3 +527,27 @@ REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro 3",                         Dete
 REGISTER_HID_DETECTOR_I  ("SteelSeries Apex Pro TKL Gen 3",                DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_PID,             1  );
 REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_1, 3, 0xFFC0, 1);
 REGISTER_HID_DETECTOR_IPU("SteelSeries Apex Pro TKL Gen 3 Wireless",       DetectSteelSeriesApex,      STEELSERIES_VID, STEELSERIES_APEX_PRO_TKL_GEN3_WL_PID_2, 3, 0xFFC0, 1);
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*\
+| Laptop Keyboards                                                                                                                                                          |
+\*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+void DetectSteelSeriesKLC(hid_device_info* info, const std::string& name)
+{
+    hid_device* dev = hid_open_path(info->path);
+
+    if(dev)
+    {
+        SteelSeriesKLCController*     controller     = new SteelSeriesKLCController(dev, info->path, name);
+        RGBController_SteelSeriesKLC* rgb_controller = new RGBController_SteelSeriesKLC(controller);
+
+        ResourceManager::get()->RegisterRGBController(rgb_controller);
+    }
+}
+
+/*
+ * Usage page 0xFF00 = Vendor-Defined interface (MI_00 on Windows).
+ * This is the interface that accepts the 5-packet RGB update sequence.
+ * Do NOT use interface=2 (the old experimental entry) — that opens the
+ * wrong HID endpoint and all writes silently succeed but do nothing.
+ */
+REGISTER_HID_DETECTOR_P ("MSI SteelSeries KLC",                             DetectSteelSeriesKLC,       STEELSERIES_VID, STEELSERIES_MSI_KLC_PID,                    0xFF00 );
