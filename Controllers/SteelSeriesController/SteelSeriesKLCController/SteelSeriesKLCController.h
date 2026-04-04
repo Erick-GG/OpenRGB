@@ -29,7 +29,7 @@
 \*---------------------------------------------------------------------*/
 #define STEELSERIES_KLC_PACKET_SIZE     525   /* 1 byte Report ID + 524 bytes payload */
 #define STEELSERIES_KLC_COMMIT_SIZE     65    /* 1 byte Report ID + 64 bytes payload  */
-#define STEELSERIES_KLC_KEY_COUNT       85    /* Total exposed LEDs (US layout)        */
+#define STEELSERIES_KLC_KEY_COUNT       83    /* Total exposed LEDs (US layout)        */
 #define STEELSERIES_KLC_FRAG_COUNT      4     /* Number of Feature Reports per update  */
 
 /*---------------------------------------------------------------------*\

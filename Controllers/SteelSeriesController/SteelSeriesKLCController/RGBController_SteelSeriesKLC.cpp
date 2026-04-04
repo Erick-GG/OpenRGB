@@ -29,11 +29,10 @@
 \*---------------------------------------------------------------------*/
 static const char* const KLC_LED_NAMES[STEELSERIES_KLC_KEY_COUNT] =
 {
-    /* Row 0 — Function row (17 keys) */
+    /* Row 0 — Function row (16 keys) */
     "Escape",
     "F1", "F2", "F3", "F4", "F5", "F6",
     "F7", "F8", "F9", "F10", "F11", "F12",
-    "Sleep",
     "Print Screen",
     "Delete",
     "Power",
@@ -53,21 +52,19 @@ static const char* const KLC_LED_NAMES[STEELSERIES_KLC_KEY_COUNT] =
     "J", "K", "L", ";", "'",
     "Enter",
 
-    /* Row 4 — Shift row (13 keys) */
+    /* Row 4 — Shift row (12 keys) */
     "Left Shift",
-    "ISO \\",                /* extra ISO key, between L-Shift and Z */
     "Z", "X", "C", "V", "B",
     "N", "M", ",", ".", "/",
     "Right Shift",
 
-    /* Row 5 — Bottom row (6 keys) */
-    "Left Ctrl", "Left Win", "Left Alt",
+    /* Row 5 — Bottom row (8 keys) */
+    "Left Ctrl", "Fn", "Left Win", "Left Alt",
     "Space",
-    "Right Alt", "Right Ctrl",
+    "Right Alt", "\\ |", "Right Ctrl",
 
-    /* Navigation cluster (8 keys) */
-    "Home", "Page Up",
-    "End",  "Page Down",
+    /* Navigation cluster (6 keys) */
+    "PgUp / Home", "PgDn / End",
     "Left Arrow", "Down Arrow", "Up Arrow", "Right Arrow"
 };
 
