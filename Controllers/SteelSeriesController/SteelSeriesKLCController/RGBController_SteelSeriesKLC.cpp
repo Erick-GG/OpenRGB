@@ -165,6 +165,15 @@ RGBController_SteelSeriesKLC::RGBController_SteelSeriesKLC(SteelSeriesKLCControl
 
 RGBController_SteelSeriesKLC::~RGBController_SteelSeriesKLC()
 {
+    for(std::size_t zone_idx = 0; zone_idx < zones.size(); zone_idx++)
+    {
+        if(zones[zone_idx].matrix_map != nullptr)
+        {
+            free(zones[zone_idx].matrix_map->map);
+            delete zones[zone_idx].matrix_map;
+        }
+    }
+
     delete controller;
 }
 
@@ -172,7 +181,7 @@ void RGBController_SteelSeriesKLC::SetupZones()
 {
     zone keyboard;
     keyboard.name       = "Keyboard";
-    keyboard.type       = ZONE_TYPE_LINEAR;
+    keyboard.type       = ZONE_TYPE_MATRIX;
     keyboard.leds_min   = STEELSERIES_KLC_KEY_COUNT;
     keyboard.leds_max   = STEELSERIES_KLC_KEY_COUNT;
     keyboard.leds_count = STEELSERIES_KLC_KEY_COUNT;
