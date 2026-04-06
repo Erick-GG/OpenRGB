@@ -8,6 +8,7 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include <cstring>
 #include "RGBControllerKeyNames.h"
 #include "RGBController_SteelSeriesKLC.h"
 
