@@ -8,7 +8,33 @@
 |   SPDX-License-Identifier: GPL-2.0-or-later               |
 \*---------------------------------------------------------*/
 
+#include "RGBControllerKeyNames.h"
 #include "RGBController_SteelSeriesKLC.h"
+
+#define NA 0xFFFFFFFF
+
+#define KLC_MATRIX_WIDTH 20
+#define KLC_MATRIX_HEIGHT 6
+
+static const unsigned int klc_matrix_map[KLC_MATRIX_HEIGHT][KLC_MATRIX_WIDTH] =
+{
+    { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, NA, NA, 13, 14, 15, NA, NA },
+    { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, NA, 29, NA, NA, NA, NA, NA },
+    { 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, NA, 43, NA, NA, NA, NA, NA },
+    { 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, NA, NA, 56, NA, NA, NA, NA, NA },
+    { 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, NA, NA, NA, 68, NA, 77, NA, 81, 78 },
+    { 69, 70, 71, 72, NA, 73, NA, NA, 74, 75, 76, NA, NA, NA, NA, NA, 79, NA, 80, 82 }
+};
+
+/* The navigation keys are injected into Row 5 (Shift row empty area) and Row 6 (Bottom Right)
+   For mapping:
+   PgUp: 77 (top right)
+   PgDn: 78 (bottom right)
+   Let's place them visually on the right:
+   81=Up (Row 4)
+   79=Left, 80=Down, 82=Right (Row 5)
+*/
+
 
 /**------------------------------------------------------------------*\
     @name SteelSeries KLC Laptop Keyboard
@@ -29,44 +55,91 @@
 \*---------------------------------------------------------------------*/
 static const char* const KLC_LED_NAMES[STEELSERIES_KLC_KEY_COUNT] =
 {
-    /* Row 0 — Function row (16 keys) */
-    "Escape",
-    "F1", "F2", "F3", "F4", "F5", "F6",
-    "F7", "F8", "F9", "F10", "F11", "F12",
-    "Print Screen",
-    "Delete",
-    "Power",
-
-    /* Row 1 — Number row (14 keys) */
-    "Grave", "1", "2", "3", "4", "5", "6",
-    "7", "8", "9", "0", "-", "=", "Backspace",
-
-    /* Row 2 — QWERTY row (14 keys) */
-    "Tab",
-    "Q", "W", "E", "R", "T", "Y",
-    "U", "I", "O", "P", "[", "]", "\\",
-
-    /* Row 3 — Home row (13 keys) */
-    "Caps Lock",
-    "A", "S", "D", "F", "G", "H",
-    "J", "K", "L", ";", "'",
-    "Enter",
-
-    /* Row 4 — Shift row (12 keys) */
-    "Left Shift",
-    "Z", "X", "C", "V", "B",
-    "N", "M", ",", ".", "/",
-    "Right Shift",
-
-    /* Row 5 — Bottom row (8 keys) */
-    "Left Ctrl", "Fn", "Left Win", "Left Alt",
-    "Space",
-    "Right Alt", "\\ |", "Right Ctrl",
-
-    /* Navigation cluster (6 keys) */
-    "PgUp / Home", "PgDn / End",
-    "Left Arrow", "Down Arrow", "Up Arrow", "Right Arrow"
+    KEY_EN_ESCAPE,
+    KEY_EN_F1,
+    KEY_EN_F2,
+    KEY_EN_F3,
+    KEY_EN_F4,
+    KEY_EN_F5,
+    KEY_EN_F6,
+    KEY_EN_F7,
+    KEY_EN_F8,
+    KEY_EN_F9,
+    KEY_EN_F10,
+    KEY_EN_F11,
+    KEY_EN_F12,
+    KEY_EN_PRINT_SCREEN,
+    KEY_EN_DELETE,
+    KEY_EN_POWER,
+    KEY_EN_BACK_TICK,
+    KEY_EN_1,
+    KEY_EN_2,
+    KEY_EN_3,
+    KEY_EN_4,
+    KEY_EN_5,
+    KEY_EN_6,
+    KEY_EN_7,
+    KEY_EN_8,
+    KEY_EN_9,
+    KEY_EN_0,
+    KEY_EN_MINUS,
+    KEY_EN_EQUALS,
+    KEY_EN_BACKSPACE,
+    KEY_EN_TAB,
+    KEY_EN_Q,
+    KEY_EN_W,
+    KEY_EN_E,
+    KEY_EN_R,
+    KEY_EN_T,
+    KEY_EN_Y,
+    KEY_EN_U,
+    KEY_EN_I,
+    KEY_EN_O,
+    KEY_EN_P,
+    KEY_EN_LEFT_BRACKET,
+    KEY_EN_RIGHT_BRACKET,
+    KEY_EN_ANSI_BACK_SLASH,
+    KEY_EN_CAPS_LOCK,
+    KEY_EN_A,
+    KEY_EN_S,
+    KEY_EN_D,
+    KEY_EN_F,
+    KEY_EN_G,
+    KEY_EN_H,
+    KEY_EN_J,
+    KEY_EN_K,
+    KEY_EN_L,
+    KEY_EN_SEMICOLON,
+    KEY_EN_QUOTE,
+    KEY_EN_ANSI_ENTER,
+    KEY_EN_LEFT_SHIFT,
+    KEY_EN_Z,
+    KEY_EN_X,
+    KEY_EN_C,
+    KEY_EN_V,
+    KEY_EN_B,
+    KEY_EN_N,
+    KEY_EN_M,
+    KEY_EN_COMMA,
+    KEY_EN_PERIOD,
+    KEY_EN_FORWARD_SLASH,
+    KEY_EN_RIGHT_SHIFT,
+    KEY_EN_LEFT_CONTROL,
+    KEY_EN_LEFT_FUNCTION,
+    KEY_EN_LEFT_WINDOWS,
+    KEY_EN_LEFT_ALT,
+    KEY_EN_SPACE,
+    KEY_EN_RIGHT_ALT,
+    KEY_EN_ISO_BACK_SLASH,
+    KEY_EN_RIGHT_CONTROL,
+    KEY_EN_PAGE_UP,
+    KEY_EN_PAGE_DOWN,
+    KEY_EN_LEFT_ARROW,
+    KEY_EN_DOWN_ARROW,
+    KEY_EN_UP_ARROW,
+    KEY_EN_RIGHT_ARROW
 };
+
 
 RGBController_SteelSeriesKLC::RGBController_SteelSeriesKLC(SteelSeriesKLCController* controller_ptr)
 {
@@ -102,7 +175,13 @@ void RGBController_SteelSeriesKLC::SetupZones()
     keyboard.leds_min   = STEELSERIES_KLC_KEY_COUNT;
     keyboard.leds_max   = STEELSERIES_KLC_KEY_COUNT;
     keyboard.leds_count = STEELSERIES_KLC_KEY_COUNT;
-    keyboard.matrix_map = NULL;
+    
+    keyboard.matrix_map = new matrix_map_type;
+    keyboard.matrix_map->height = KLC_MATRIX_HEIGHT;
+    keyboard.matrix_map->width  = KLC_MATRIX_WIDTH;
+    keyboard.matrix_map->map    = (unsigned int *)malloc(KLC_MATRIX_WIDTH * KLC_MATRIX_HEIGHT * sizeof(unsigned int));
+    memcpy(keyboard.matrix_map->map, klc_matrix_map, KLC_MATRIX_WIDTH * KLC_MATRIX_HEIGHT * sizeof(unsigned int));
+
     zones.push_back(keyboard);
 
     for(int i = 0; i < STEELSERIES_KLC_KEY_COUNT; i++)
