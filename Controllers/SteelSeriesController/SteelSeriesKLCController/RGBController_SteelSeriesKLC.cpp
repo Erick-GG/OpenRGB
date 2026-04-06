@@ -14,17 +14,17 @@
 
 #define NA 0xFFFFFFFF
 
-#define KLC_MATRIX_WIDTH 20
+#define KLC_MATRIX_WIDTH 22
 #define KLC_MATRIX_HEIGHT 6
 
 static const unsigned int klc_matrix_map[KLC_MATRIX_HEIGHT][KLC_MATRIX_WIDTH] =
 {
-    { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, NA, NA, 13, 14, 15, NA, NA },
-    { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, NA, 29, NA, NA, NA, NA, NA },
-    { 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, NA, 43, NA, NA, NA, NA, NA },
-    { 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, NA, NA, 56, NA, NA, NA, NA, NA },
-    { 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, NA, NA, NA, 68, NA, 77, NA, 81, 78 },
-    { 69, 70, 71, 72, NA, 73, NA, NA, 74, 75, 76, NA, NA, NA, NA, NA, 79, NA, 80, 82 }
+    {  0, NA,  1,  2,  3,  4, NA,  5,  6,  7,  8, NA,  9, 10, 11, 12, 13, 14, 15, NA, NA, NA },
+    { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 29, NA, NA, NA, NA, NA, NA },
+    { 30, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 43, NA, NA, NA, NA, NA, NA },
+    { 44, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 56, 56, NA, NA, NA, NA, NA, NA },
+    { 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 68, 68, NA, 81, NA, 77, NA, NA, NA },
+    { 69, 70, 71, 72, 73, 73, 73, 73, 73, 73, 74, 75, 76, NA, NA, 79, 80, 82, 78, NA, NA, NA }
 };
 
 /* The navigation keys are injected into Row 5 (Shift row empty area) and Row 6 (Bottom Right)
