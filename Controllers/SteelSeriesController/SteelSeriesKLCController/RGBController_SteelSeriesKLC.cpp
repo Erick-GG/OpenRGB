@@ -14,28 +14,34 @@
 
 #define NA 0xFFFFFFFF
 
-#define KLC_MATRIX_WIDTH 22
-#define KLC_MATRIX_HEIGHT 7
+#define KLC_MATRIX_WIDTH  16
+#define KLC_MATRIX_HEIGHT  7
 
+/*
+ * 16 columns match the 16 physically equal-width keys in Row 0 (function row).
+ * All other rows use multi-cell spans to approximate real key proportions:
+ *   Backspace ×3, Tab ×2, \ ×2, Caps ×2, Enter ×3, LShift ×3, RShift ×3
+ *   LCtrl ×2, Space ×5
+ * Rows 5+6 share the bottom modifier keys and each holds half the nav cluster
+ * (PgUp/Up/PgDn on row 5, Left/Down/Right on row 6).
+ */
 static const unsigned int klc_matrix_map[KLC_MATRIX_HEIGHT][KLC_MATRIX_WIDTH] =
 {
-    {  0, NA,  1,  2,  3,  4, NA,  5,  6,  7,  8, NA,  9, 10, 11, 12, 13, 14, 15, NA, NA, NA },
-    { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 29, 29, 29, 29, NA, NA, NA },
-    { 30, 30, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 43, 43, 43, NA, NA, NA },
-    { 44, 44, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 56, 56, 56, 56, NA, NA, NA },
-    { 57, 57, 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 68, 68, 68, 68, NA, NA, NA },
-    { 69, 69, 70, 71, 72, 72, 73, 73, 73, 73, 73, 73, 73, 73, 73, 74, 75, 76, 76, 77, 81, 78 },
-    { 69, 69, 70, 71, 72, 72, 73, 73, 73, 73, 73, 73, 73, 73, 73, 74, 75, 76, 76, 79, 80, 82 }
+//  Esc  F1   F2   F3   F4   F5   F6   F7   F8   F9  F10  F11  F12  Prt  Del  Pwr
+    {  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15 },
+//  `    1    2    3    4    5    6    7    8    9    0    -    =   [Bksp  ×3  ]
+    { 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 29, 29 },
+//  [Tab ×2] Q    W    E    R    T    Y    U    I    O    P    [    ]   [\ ×2]
+    { 30, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 43 },
+//  [Cap ×2] A    S    D    F    G    H    J    K    L    ;    '  [Ent  ×3  ]
+    { 44, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 56, 56 },
+//  [LSh    ×3   ] Z    X    C    V    B    N    M    ,    .    /  [RSh  ×3  ]
+    { 57, 57, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 68, 68 },
+//  [Ctl ×2] Fn  Win  Alt [Space      ×5      ] RAlt IS\  RCt  PgU   Up  PgDn
+    { 69, 69, 70, 71, 72, 73, 73, 73, 73, 73, 74, 75, 76, 77, 81, 78 },
+//  [Ctl ×2] Fn  Win  Alt [Space      ×5      ] RAlt IS\  RCt  Lft   Dn  Rght
+    { 69, 69, 70, 71, 72, 73, 73, 73, 73, 73, 74, 75, 76, 79, 80, 82 }
 };
-
-/* The navigation keys are injected into Row 5 (Shift row empty area) and Row 6 (Bottom Right)
-   For mapping:
-   PgUp: 77 (top right)
-   PgDn: 78 (bottom right)
-   Let's place them visually on the right:
-   81=Up (Row 4)
-   79=Left, 80=Down, 82=Right (Row 5)
-*/
 
 
 /**------------------------------------------------------------------*\
